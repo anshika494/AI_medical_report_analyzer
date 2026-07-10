@@ -1,67 +1,145 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Bell, Search } from "lucide-react";
-
-const pageTitles: Record<string, string> = {
-  "/dashboard": "Dashboard",
-  "/dashboard/upload": "Upload Report",
-  "/dashboard/reports": "My Reports",
-  "/dashboard/health-scores": "Health Scores",
-  "/dashboard/recommendations": "Recommendations",
-  "/dashboard/trends": "Progress & Trends",
-  "/dashboard/food-scanner": "Food Scanner",
-  "/dashboard/profile": "My Profile",
-};
+import React from "react";
+import { Bell, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 export function Topbar() {
-  const pathname = usePathname();
-
-  const title = pageTitles[pathname] || "Dashboard";
-  const greeting = getGreeting();
-
   return (
-    <header className="sticky top-0 z-20 glass border-b border-[#2D3B2D]/5 px-4 md:px-6 lg:px-8 py-4">
-      <div className="flex items-center justify-between">
-        <div className="ml-12 lg:ml-0">
-          <h1 className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl font-bold text-[#2D3B2D]">
-            {title}
-          </h1>
-          <p className="text-[#2D3B2D]/40 text-sm mt-0.5">
-            {greeting}, there 👋
-          </p>
-        </div>
+    <header style={styles.topbar}>
+      {/* Left: Portal badge */}
+      <div style={styles.portalBadge}>
+        <ShieldCheck style={styles.badgeIcon} />
+        <span style={styles.badgeText}>Secure Patient Portal</span>
+      </div>
 
-        <div className="flex items-center gap-3">
-          {/* Search */}
-          <div className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/50 border border-[#2D3B2D]/8 w-64">
-            <Search className="w-4 h-4 text-[#2D3B2D]/30" />
-            <input
-              type="text"
-              placeholder="Search anything..."
-              className="bg-transparent border-none outline-none text-sm text-[#2D3B2D] placeholder:text-[#2D3B2D]/30 w-full"
-            />
+      {/* Right: User menu & notifications */}
+      <div style={styles.actions}>
+        <button
+          aria-label="Notifications"
+          style={styles.notificationBtn}
+          className="hover:bg-[#2D3B2D]/5 active:scale-[0.95] transition-all"
+        >
+          <Bell style={styles.bellIcon} />
+          <span style={styles.notificationDot} />
+        </button>
+
+        <div style={styles.profileDivider} />
+
+        <Link href="/dashboard/profile" style={styles.profileLink}>
+          <div style={styles.userInfo}>
+            <p style={styles.userName}>Alex Mercer</p>
+            <p style={styles.userSubtitle}>Member since 2024</p>
           </div>
-
-          {/* Notifications */}
-          <button className="relative p-2.5 rounded-xl hover:bg-white/50 transition-colors">
-            <Bell className="w-5 h-5 text-[#2D3B2D]/50" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 rounded-full" />
-          </button>
-
-          {/* Avatar */}
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center text-white text-sm font-bold">
-            U
-          </div>
-        </div>
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKUXkOZE532qUHZlPOQIP3gB75OK7ibGABrZsBa4ApweROciRX_zcmmTReoyTulaN67vIAHWsE2jWS14e3JqmjPSjKjfJPzFDclCQyFxUkO_UxIuOTp7RivLMHeFKWHus1CDtrfnE_IAS3tBgzCYnTFxMSCbgNEtXZ6LRJ0DKwtY5qTrWmXkn0qBjZgp3o03eNHwWXomYxXNG69Vh2JiqcjW_AzpCcQNLibINL9hHU4l_xlVhTdNDU"
+            alt="Alex Mercer"
+            style={styles.avatar}
+          />
+        </Link>
       </div>
     </header>
   );
 }
 
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
+const styles = {
+  topbar: {
+    height: "64px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: "32px",
+    paddingRight: "32px",
+    backgroundColor: "#ffffff",
+    borderBottom: "1px solid rgba(45, 59, 45, 0.08)",
+    position: "sticky" as const,
+    top: 0,
+    zIndex: 40,
+  },
+  portalBadge: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  },
+  badgeIcon: {
+    width: "18px",
+    height: "18px",
+    color: "#059669",
+  },
+  badgeText: {
+    fontSize: "12px",
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.05em",
+    fontWeight: "700",
+    color: "rgba(45, 59, 45, 0.65)",
+    fontFamily: "var(--font-manrope), sans-serif",
+  },
+  actions: {
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+  },
+  notificationBtn: {
+    position: "relative" as const,
+    padding: "8px",
+    borderRadius: "9999px",
+    border: "none",
+    backgroundColor: "transparent",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  bellIcon: {
+    width: "18px",
+    height: "18px",
+    color: "rgba(45, 59, 45, 0.65)",
+  },
+  notificationDot: {
+    position: "absolute" as const,
+    top: "8px",
+    right: "8px",
+    width: "6px",
+    height: "6px",
+    backgroundColor: "#10B981",
+    borderRadius: "9999px",
+  },
+  profileDivider: {
+    height: "24px",
+    width: "1px",
+    backgroundColor: "rgba(45, 59, 45, 0.15)",
+  },
+  profileLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    textDecoration: "none",
+  },
+  userInfo: {
+    textAlign: "right" as const,
+    display: "flex",
+    flexDirection: "column" as const,
+  },
+  userName: {
+    fontSize: "14px",
+    fontWeight: "600",
+    color: "#2D3B2D",
+    margin: 0,
+    lineHeight: "1.2",
+  },
+  userSubtitle: {
+    fontSize: "10px",
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.05em",
+    color: "rgba(45, 59, 45, 0.45)",
+    margin: 0,
+    marginTop: "2px",
+  },
+  avatar: {
+    width: "36px",
+    height: "36px",
+    borderRadius: "9999px",
+    border: "2px solid #72fd9f",
+    objectFit: "cover" as const,
+  },
+};
