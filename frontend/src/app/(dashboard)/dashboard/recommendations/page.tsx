@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   pageWrapper: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "calc(100vh - 64px - 64px)",  // viewport minus topbar minus layout padding
+    minHeight: "calc(100vh - 110px)",  // viewport minus topbar minus layout padding
     gap: "32px",
   },
   headerRow: {

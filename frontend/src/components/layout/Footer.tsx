@@ -25,7 +25,7 @@ const styles = {
     flexDirection: "row" as const,
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: "24px",
+    paddingTop: "12px",
     borderTop: "1px solid #c2c8c2",
     marginTop: "auto", // Push footer to very bottom of flex container
     width: "100%",
